@@ -1,3 +1,6 @@
+# Note need to turn off calvolt(v) before running this code 
+# calibrateVoltage(v) = getVdac(calvolt(v), :+, true)
+
 using Plots
 using DataFrames
 using Interpolations
@@ -16,7 +19,7 @@ function get_points(V)
     return DataFrame(setV=V, readV=x)
 end
 
-df = mapfoldl(get_points, vcat, [10:10:90; 100:100:1000; 2000:1000:10000])
+df = mapfoldl(get_points, vcat, [10:5:145; 150:50:1000; 2000:1000:10000])
 df1 = filter(:readV => x -> x > 10, df)
 df2 = sort(df1, [:readV])
 
