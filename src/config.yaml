@@ -25,6 +25,6 @@ CPC:
 DMA:                     # Configuration of DMA
     model: TSILONG       # TSI Long Column
     Qsh: 5.0             # Sheath flow [L min-1]
-    Qsa: 1.5             # Sample flow [L min-1]
+    Qsa: 1.3             # Sample flow [L min-1]
     T: 22.0              # Temperature [degree C]
     p: 101315.0          # Pressure [Pa]
