@@ -7,9 +7,9 @@ serial:
 
 LJ:
     ID: -1               # ID of Labjack, -1 == first found
-    AIN:                 # Designation of Analog Inputs
+    AIN:                 # Designation of Ana
         RH: 0            # RH sensor humidity
-        T: 1             # RH sensor temperature
+        T: 1             # RH sensor temperatlog Inputs
         V: 2             # Ultravolt HV read 
         I: 3             # Ultravolt current read 
     FIO:
@@ -24,7 +24,7 @@ CPC:
 
 DMA:                     # Configuration of DMA
     model: TSILONG       # TSI Long Column
-    Qsh: 9.0             # Sheath flow [L min-1]
+    Qsh: 5.0             # Sheath flow [L min-1]
     Qsa: 1.5             # Sample flow [L min-1]
     T: 22.0              # Temperature [degree C]
     p: 101315.0          # Pressure [Pa]
