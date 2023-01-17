@@ -180,6 +180,7 @@ end
 p0 = plot([now()], [1.0])
 p = Signal(p0)
 
+sleep(4)
 graphLoop = map(_ -> graphit(), oneHz)
 
 graphHz = every(60.0)

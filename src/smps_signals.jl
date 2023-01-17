@@ -33,7 +33,7 @@ function smps_signals()
             (myV = exp(trianglewave(t-holdTime, 2*scanTime, log(startVoltage), log(endVoltage))))
         (smps_scan_state.value == "UPHOLD") && (myV = endVoltage)
         (smps_scan_state.value == "DOWNSCAN") &&
-            (myV = exp(trianglewave(t-2*holdTime, 2*scanTime, log(startVoltage), log(endVoltage))))
+            (myV = exp(trianglewave(t-holdTime-flushTime, 2*scanTime, log(startVoltage), log(endVoltage))))
         (smps_scan_state.value == "FLUSH") && (myV = startVoltage)
         (smps_scan_state.value == "DONE") && (myV = startVoltage)
         (smps_scan_state.value == "CLASSIFIER") && (myV = classifierV.value)
