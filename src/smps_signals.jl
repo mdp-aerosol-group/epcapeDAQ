@@ -61,11 +61,8 @@ function smps_signals()
     smps_scan_state = map(state, smps_elapsed_time)
     V = map(smps_voltage, smps_elapsed_time)
     Dp = map(v -> vtod(Λ, v), V)
-    reset = map(
-        _ -> push!(smps_start_time, datetime2unix(now(UTC))),
-        filter(t -> t > scanLength, smps_elapsed_time),
-    )
-    return smps_scan_state, reset, V, Dp
+ 
+    return smps_scan_state, V, Dp
 end
 
 function scan_parameters()

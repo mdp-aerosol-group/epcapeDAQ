@@ -72,9 +72,19 @@ const dmaState = Signal(:SMPS)
 const oneHz = every(1.0)
 const smps_start_time = Signal(datetime2unix(now(UTC)))
 const smps_elapsed_time = map(t -> Int(round(t - smps_start_time.value; digits = 0)), oneHz)
-const smps_scan_state, reset, V, Dp = smps_signals()
+const smps_scan_state, V, Dp = smps_signals()
 const signalV = map(calibrateVoltage, V)
 const labjack_signals = map(labjackReadWrite, signalV)
+
+sleep(2)
+const sec = map(oneHz) do x
+    @chain Dates.value(Time(unix2datetime(x)) - Time(0, 0, 0)) / 1e9 round Int
+end
+
+const reset = map(
+    _ -> push!(smps_start_time, datetime2unix(now(UTC))),
+    filter(t -> t % 600 == 0, sec),
+)
 
 function updatestate!()
     CircularList.forward!(state)
@@ -118,7 +128,10 @@ function packet()
     pops = PrintedOpticalParticleSpectrometer.get_current_record()
     ccn = DropletMeasurementTechnologiesCCN.get_current_record()
     lj = get_current_record()
-    tc = Dates.format(now(), "yyyy-mm-ddTHH:MM:SS") * "," * string(CircularList.current(state).data.denuded)
+    tc =
+        Dates.format(now(), "yyyy-mm-ddTHH:MM:SS") *
+        "," *
+        string(CircularList.current(state).data.denuded)
 
     return mapfoldl(x -> string(x) * ";", *, [tc, cpc, pops, ccn, lj])[1:end-1] * '\n'
 end
@@ -145,7 +158,7 @@ const dataBufferIr = CircularBuffer{Float64}(600)
 
 function graphit()
     x = packet()
-    a = split(x, ";") 
+    a = split(x, ";")
     b = split(a[1], ",")
     t = DateTime(b[1])
     cs = @chain split(a[2], ",") getindex(_, 3) parse(Float64, _)
@@ -186,7 +199,7 @@ graphLoop = map(_ -> graphit(), oneHz)
 graphHz = every(60.0)
 graphDisp = map(graphHz) do _
     display(packet())
-    display(p.value)
+    return display(p.value)
 end
 
 # function psd(ii, jj)
