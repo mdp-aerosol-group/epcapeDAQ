@@ -31,12 +31,18 @@ state = circularlist(State(4.0, false))
 insert!(state, State(4.0, true))
 insert!(state, State(6.0, false))
 insert!(state, State(6.0, true))
+insert!(state, State(8.0, false))
+insert!(state, State(8.0, true))
 insert!(state, State(10.0, false))
 insert!(state, State(10.0, true))
+insert!(state, State(12.0, false))
+insert!(state, State(12.0, true))
 insert!(state, State(14.0, false))
 insert!(state, State(14.0, true))
+insert!(state, State(16.0, false))
+insert!(state, State(16.0, true))
 
-const Vhi = Signal(150.0)
+const Vhi = Signal(35.0)
 const Vlow = Signal(6000.0)
 const tscan = Signal(240)
 const thold = Signal(100)
@@ -201,28 +207,3 @@ graphDisp = map(graphHz) do _
     display(packet())
     return display(p.value)
 end
-
-# function psd(ii, jj)
-#     Dd = map(v -> vtod(Λ, v), dataBufferVr)
-#     N = map(x -> x, dataBufferCPCc)
-#     Nccn = map(x -> x, dataBufferCCN)
-#     p = plot(
-#         Dd[1:end-ii],
-#         N[ii+1:end];
-#         xscale = :log10,
-#         xlim = [40, 1000],
-#         ylim = [0, 100],
-#         xticks = [100, 1000],
-#         minorgrid = true,
-#     )
-#     p = plot!(Dd[1:end-jj], Nccn[jj+1:end])
-#     mDe = exp10.(range(log10(40); stop = log10(400), length = 101))
-#     mDd = sqrt.(mDe[2:end] .* mDe[1:end-1])
-
-#     #itp1 = interpolate(Dd[1:end-ii], N[ii+1:end])
-#     return display(p)
-# end
-
-# psd(4, 24)
-
-# display(p.value)
