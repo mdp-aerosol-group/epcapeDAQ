@@ -1,1 +1,4 @@
-# Housekeeping
+## 02/10 - 02/17
+
+![](assets/hk/20230210_hk.png)
+

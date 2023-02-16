@@ -1,5 +1,4 @@
-# Quicklooks
+## 02/10 - 02/17
 
-## 02/10-02/17
+![](assets/quicklooks/20230210_ql.png)
 
-![](assets/20230210_ql.png)
