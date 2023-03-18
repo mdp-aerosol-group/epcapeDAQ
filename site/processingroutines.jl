@@ -117,40 +117,40 @@ end
 
 function pops2cdf(cdfname, t, tpops, ss)
     DminPOPS = [
-        115.0,
-        125,
-        135,
-        150,
-        165,
-        185,
-        210,
-        250,
-        350,
-        475,
-        575,
-        855,
-        1220,
-        1530,
-        1990,
-        2585,
+        158,
+        175,
+        194,
+        215,
+        238,
+        292,
+        381,
+        500,
+        592,
+        820,
+       1290,
+       1674,
+       2090,
+       2917,
+       3795,
+       4923,
     ]
     DmaxPOPS = [
-        125,
-        135,
-        150,
-        165,
-        185,
-        210,
-        250,
-        350,
-        475,
-        575,
-        855,
-        1220,
-        1530,
-        1990,
-        2585,
-        3370.0,
+        175,
+        194,
+        215,
+        238,
+        292,
+        381,
+        500,
+        592,
+        820,
+       1290,
+       1674,
+       2090,
+       2917,
+       3795,
+       4923,
+       6393,
     ]
     DboundPOPS = hcat(DminPOPS, DmaxPOPS)'[:, :]
     DmidPOPS = DminPOPS .+ (DmaxPOPS .- DminPOPS) ./ 2.0
@@ -246,9 +246,14 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
     T3 = map(x -> getf64(x, 7), tccn)
     dT = map(x -> getf64(x, 17), tccn)
 
-    # LJ decode
+    # LJ decode    
     state = map(x -> (@chain split(x, ",") getindex(_, 4)), tlj)
     Vr = map(x -> getf64(x, 5), tlj)
+    cvi_raw = map(x -> getf64(x, 6), tlj)
+    cvi = map(x -> (x > -20.0) ? 0.0 : 1.0, cvi_raw)
+    if ss < Date(2023,3,10)
+        cvi[:] .= 0.0
+    end
     ccount = map(x -> getf64(x, 9), tlj)
     cserial = map(x -> getf64(x, 3), tcpc)
 
@@ -267,6 +272,7 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
     meandsd = NaN .* ones(288, 20)
     ccn_dT = NaN .* ones(288)
     isdenuded = NaN .* falses(288)
+    iscvi = NaN .* ones(288)
     cpc_status = NaN .* ones(Int, 288)
     scans = [1; findall(denuded[1:end-1] .⊻ denuded[2:end])]
 
@@ -289,6 +295,8 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
 
         isdenuded[ti] = denuded[ii][10]
         isdenuded[ti+1] = denuded[ii][10]
+        iscvi[ti] = mean(cvi[ii][jj])
+        iscvi[ti+1] = mean(cvi[ii][kk])
         ccn_dT[ti] = dT[ii][10]
         ccn_dT[ti+1] = dT[ii][10]
         cpc_stats = cpcflag[ii][10]
@@ -365,6 +373,7 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
     ccn_ss = round.(0.0777 .* ccn_dT .- 0.14895; digits = 1)
 
     ncwrite(Int32.(isdenuded), cdfname, "denuder_flag")
+    ncwrite(iscvi, cdfname, "cvi_flag")
     ncwrite(ccn_dT, cdfname, "ccn_gradient")
     ncwrite(ccn_ss, cdfname, "ccn_supersaturation")
     ncwrite(nan2zero(cpc_status), cdfname, "qc_cpc_flag")

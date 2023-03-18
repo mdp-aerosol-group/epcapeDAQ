@@ -35,7 +35,8 @@ function quicklook(week_to_analyze)
     dN_dlog_Dp_CCN_2,
     droplet_size_distribution_ccn,
     sample_flow_ccn,
-    sheath_flow_ccn =
+    sheath_flow_ccn,
+    cvi_flag =
         read_netCDF("/home/mdpetter/epcape/epc10denudedccnS2.b1/", week_to_analyze)
 
     ss = tf[1]
@@ -98,8 +99,19 @@ function quicklook(week_to_analyze)
         ylabel = "Q sh-to-sa (-)",
     )
 
+    p6 = plot(
+        tf,
+        cvi_flag;
+        xticks = (tm, ticks),
+        ylim = (0,1.2),
+        minorgrid = true,
+        color = :black,
+        label = :none,
+        ylabel = "CVI Flag (-)",
+    )
+
     phk =
-        plot(p1, p2, p3, p4, p5; layout = grid(5, 1), xlim = (ss, ee), size = (900, 700), left_margin = 20px)
+        plot(p1, p2, p3, p4, p5, p6; layout = grid(6, 1), xlim = (ss, ee), size = (900, 800), left_margin = 60px, right_marking = 40px)
 
     dstr = Dates.format(week_to_analyze, "yyyymmdd")
     savefig(phk, "src/assets/hk/" * dstr * "_hk.png")
@@ -315,13 +327,11 @@ function quicklook(week_to_analyze)
         xlim = (ss, ee),
         layout = grid(8, 1),
         size = (900, 1000),
-        left_margin = 20px,
+        left_margin = 60px,
         right_margin = 20px,
     )
 
     savefig(pts, "src/assets/quicklooks/" * dstr * "_ql.png")
-
-    display(pts)
 
     return :SUCCESS
 end

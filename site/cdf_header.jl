@@ -44,6 +44,7 @@ function create_file(ss)
     opcdim = zeros(16)
     bound = zeros(Int32, 2)
     ccnopcdim = zeros(20)
+    dutydim = zeros(600)
 
     # Dimension attributes
     mobatts =
@@ -307,7 +308,7 @@ function create_file(ss)
         atts = varatts,
     )
 
-    varatts = Dict("longname" => "POPS diameter bin boundaries", "units" => "nm")
+    varatts = Dict("longname" => "POPS diameter bin boundaries", "units" => "nm", "comment" => "Based on calibration with size-selected ammonium sulfate n = 1.55 + 0i and a scaled Mie model")
 
     nccreate(
         filename,
@@ -569,8 +570,6 @@ function create_file(ss)
 
     nccreate(filename, "ccn_supersaturation", "time", timedim, timatts; atts = varatts)
 
-
-
     varatts = Dict(
         "longname" => "Flag to indicate whether denuder was used prior to CCN measurement",
         "units" => "0 (no denuder) or 1 (denuder)",
@@ -579,6 +578,15 @@ function create_file(ss)
     )
 
     nccreate(filename, "denuder_flag", "time", timedim, timatts; atts = varatts, t = NC_INT)
+
+    varatts = Dict(
+        "longname" => "Flag to indicate whether the instrument was sampling from CVI",
+        "units" => "0 to 1",
+        "missing value" => "NaN",
+        "comment" => "fraction of seconds if CVI valve was turned on, 1 = 100% on CVI",
+    )
+
+    nccreate(filename, "cvi_flag", "time", timedim, timatts; atts = varatts)
 
     varatts = Dict(
         "longname" => "Mean count distribution, DMT CCN optical spectrometer",

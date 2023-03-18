@@ -16,4 +16,11 @@ The system is located inside a trailer at the Mt. Soledad site, shown on the lef
 
 ![](assets/site.jpeg)
 
+## Contact
+
+Contact: Markus Petters, [mdpetter@ncsu.edu](mailto:mdpetter@ncsu.edu).
+
+## Acknowledgements
+
+The EPCAPE campaign is supported by the [DOE-ARM](https://www.arm.gov/research/campaigns/amf2023epcape) program. The denuded CCN measurements are supported by National Science Foundation award NSF-AGS 2133183. 
 
