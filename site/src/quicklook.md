@@ -22,3 +22,15 @@
 
 ![](assets/quicklooks/20230317_ql.png)
 
+## 03/24 - 03/31
+
+![](assets/quicklooks/20230324_ql.png)
+
+## 03/31 - 04/07
+
+![](assets/quicklooks/20230331_ql.png)
+
+## 04/07 - 04/14
+
+![](assets/quicklooks/20230407_ql.png)
+

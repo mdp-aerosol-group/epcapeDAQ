@@ -352,6 +352,16 @@ function create_file(ss)
 
     nccreate(filename, "sample_temperature", "time", timedim, timatts; atts = varatts)
 
+
+    varatts = Dict(
+        "longname" => "Sample pressure",
+        "units" => "kPa",
+        "missing_value" => "NaN",
+        "comment" => "Absolute pressure measured by the CPC at the exit of the DMA",
+    )
+
+    nccreate(filename, "sample_pressure", "time", timedim, timatts; atts = varatts)
+
     # Location ------------------------------------------------------------------
 
     varatts = Dict(

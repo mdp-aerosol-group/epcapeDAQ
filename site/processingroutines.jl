@@ -239,6 +239,7 @@ end
 
 function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
     cpcflag = map(x -> getRIE(x, 4), tcpc)
+    cpcp = map(x -> getf64(x, 9), tcpc)
     ccn = map(x -> getf64(x, 21), tccn)
     dsd = map(x -> getf64(x, 23:42), tccn)
     T1 = map(x -> getf64(x, 5), tccn)
@@ -271,6 +272,7 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
     invccn_2 = NaN .* ones(288, 100)
     meandsd = NaN .* ones(288, 20)
     ccn_dT = NaN .* ones(288)
+    cpc_P = NaN .* ones(288)
     isdenuded = NaN .* falses(288)
     iscvi = NaN .* ones(288)
     cpc_status = NaN .* ones(Int, 288)
@@ -318,6 +320,10 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
         ccnkk = @chain ccn_shift[ii][kk] regrid(_, Dkk, δ)
         meandsdjj = mean(hcat(dsd[ii][jj]...); dims = 2)[:]
         meandsdkk = mean(hcat(dsd[ii][kk]...); dims = 2)[:]
+
+        cpc_P[ti] = mean(cpcp[ii][jj])
+        cpc_P[ti+1] = mean(cpcp[ii][kk])
+
 
         rcn_serial[ti, :] = cnserialjj
         rcn_serial[ti+1, :] = cnserialkk
@@ -371,10 +377,11 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
     end
 
     ccn_ss = round.(0.0777 .* ccn_dT .- 0.14895; digits = 1)
-
+    #println(cpc_P)
     ncwrite(Int32.(isdenuded), cdfname, "denuder_flag")
     ncwrite(iscvi, cdfname, "cvi_flag")
     ncwrite(ccn_dT, cdfname, "ccn_gradient")
+    ncwrite(cpc_P, cdfname, "sample_pressure")
     ncwrite(ccn_ss, cdfname, "ccn_supersaturation")
     ncwrite(nan2zero(cpc_status), cdfname, "qc_cpc_flag")
     ncwrite(rcn_serial'[:, :], cdfname, "response_function_cpc_serial")

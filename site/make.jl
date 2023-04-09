@@ -31,8 +31,8 @@ function make_netcdf(ss)
     return nothing
 end
 
-make_netcdf(today()+Day(1))
 today() |> make_netcdf
+make_netcdf(today()+Day(1))
 
 dates = Date(2023, 02, 10):Day(7):Date(2023, 08, 31)
 

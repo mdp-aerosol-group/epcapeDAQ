@@ -117,6 +117,7 @@ function quicklook(week_to_analyze)
     savefig(phk, "src/assets/hk/" * dstr * "_hk.png")
 
     dlnDp = log.(diameter_mobility_bounds[2, :] ./ diameter_mobility_bounds[1, :])
+    println("Here 1")
 
     N_count0 = map(i -> sum(dN_dlog_Dp_DMA_count_0[:, i] .* dlnDp), 1:length(tf))
     N_count2 = map(i -> sum(dN_dlog_Dp_DMA_count_2[:, i] .* dlnDp), 1:length(tf))
@@ -140,7 +141,7 @@ function quicklook(week_to_analyze)
         yscale = :log10,
         ylabel = "POPS (cm⁻³)",
     )
-
+    println("Here 2")
     N_pops_smps = map(i -> sum(dN_dlog_Dp_DMA_count_0[kk, i] .* dlnDp[kk]), 1:length(tf))
 
     p1 = plot!(
@@ -164,7 +165,7 @@ function quicklook(week_to_analyze)
     )
 
     ii = (ccn_supersaturation .== 1.0) .& (denuder_flag .== false)
-
+    println("Here 3")
     p3 = plot(
         tf[ii],
         N_ccn0[ii];
@@ -193,6 +194,7 @@ function quicklook(week_to_analyze)
         hcat,
         1:length(tf),
     )
+    println("Here 4")
 
     p4 = heatmap(
         tf,
@@ -208,12 +210,18 @@ function quicklook(week_to_analyze)
         c = :jet,
     )
 
+    mmm = (dNdlog_Dp_POPS .< 0 )
+    println("Here 5")
+    dNdlog_Dp_POPS[mmm] .= 0.0
+
     NP = mapfoldl(
         i -> dNdlog_Dp_POPS[:, i] ./ maximum(dNdlog_Dp_POPS[:, i]),
         hcat,
         1:length(tf),
     )
-
+    println("Here 5")
+    println(size(NP))
+    
     p5 = heatmap(
         tf,
         diameter_pops_midpoints,
@@ -227,7 +235,7 @@ function quicklook(week_to_analyze)
         cbar = :none,
         c = :jet,
     )
-
+    println("Here 4.1")
     NC = mapfoldl(
         i ->
             droplet_size_distribution_ccn[:, i] ./
@@ -259,7 +267,7 @@ function quicklook(week_to_analyze)
     jj = (ccn_supersaturation .== 0.6) .& (denuder_flag .== true)
 
     p6 = scatter!(tf[jj], ND[jj]; color = :darkred, label = :none)
-
+    println("Here 4.6")
     mft = map(1:length(tf)) do i
         return fitme(
             ccn_supersaturation,
@@ -269,7 +277,7 @@ function quicklook(week_to_analyze)
             i,
         )
     end
-
+    println("Here 6")
     getme(x) =
         try
             #display(x[1])
