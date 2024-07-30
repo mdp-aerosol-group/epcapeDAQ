@@ -8,7 +8,7 @@ This page is dedicated to host quicklooks for a portion of the NSF-funded addon 
 
 ## System
 
-NC State University is deploying a size-resolved CCN system that measures the particle size distribution and CCN distribution for denuded and undenuded CCN. 
+The University of California, Riverside is deploying a size-resolved CCN system that measures the particle size distribution and CCN distribution for denuded and undenuded CCN. 
 
 ## Location
 
@@ -18,7 +18,7 @@ The system is located inside a trailer at the Mt. Soledad site, shown on the lef
 
 ## Contact
 
-Contact: Markus Petters, [mdpetter@ncsu.edu](mailto:mdpetter@ncsu.edu).
+Contact: Markus Petters, [markus.petters@ucr.edu](mailto:markus.petters@ucr.edu).
 
 ## Acknowledgements
 

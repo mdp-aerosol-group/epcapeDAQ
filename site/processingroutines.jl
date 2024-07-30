@@ -320,6 +320,8 @@ function distribution2cdf(cdfname, t, tcpc, tccn, tlj, denuded, Λ, δ, ss)
         ccnkk = @chain ccn_shift[ii][kk] regrid(_, Dkk, δ)
         meandsdjj = mean(hcat(dsd[ii][jj]...); dims = 2)[:]
         meandsdkk = mean(hcat(dsd[ii][kk]...); dims = 2)[:]
+        fff = ismissing.(ccnkk)
+        ccnkk[fff] .= NaN
 
         cpc_P[ti] = mean(cpcp[ii][jj])
         cpc_P[ti+1] = mean(cpcp[ii][kk])
